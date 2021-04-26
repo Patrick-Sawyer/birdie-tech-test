@@ -21,12 +21,12 @@ interface Count {
 }
 
 observationsController.get('/observations', (req, res) => {
-
+  res.header("Access-Control-Allow-Origin", "*");
   //QUERY STRINGS
 
   // recipient - the recipient id
   // type - the observation event type, to filter accordingly
-  // page - 20 elements per page
+  // page - 20 elements per page, first page is page 0, returns first 20 (ordered by date)
   // count - if anything given, it returns a tally of all the observation event types instead
 
   const { recipient, page, type, count } = req.query;
@@ -35,6 +35,8 @@ observationsController.get('/observations', (req, res) => {
 
   connection.connect((err: any) => {
       if (err) throw err;
+
+      //GET ALL DATA FOR RECIPIENT, ORDER BY DATE
 
       connection.query('SELECT payload, timestamp FROM events WHERE care_recipient_id="' + recipient + '" ORDER BY timestamp ASC', (err: any, rows: any) => {
           if (err) throw err;
