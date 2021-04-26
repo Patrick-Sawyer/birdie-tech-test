@@ -10,6 +10,8 @@ import axios, { AxiosResponse } from 'axios';
 
 const LogoUrl = require('../../assets/images/logo-birdie.svg');
 
+const api = 'http://localhost:8000';
+
 interface AppProps {
 
 }
@@ -71,7 +73,7 @@ class App extends React.Component<AppProps, AppState> {
 
   private getObservationCounts = () => {
     axios
-    .get<Count>('http://localhost:8000/observations?recipient=' + this.state.careRecipientId + '&count=true')
+    .get<Count>(api + '/observations?recipient=' + this.state.careRecipientId + '&count=true')
     .then((response: AxiosResponse) => {
       this.setState({
         fetchedData: response.data
