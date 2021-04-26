@@ -6,7 +6,9 @@ export const observationsController = express.Router();
 
 interface RowParsed {
   payload: {
-    event_type: string
+    event_type: string;
+    note: string;
+    mood: string;
   };
   timestamp: string;
 }
@@ -82,6 +84,14 @@ observationsController.get('/observations', (req, res) => {
           }
 
           //RETURN RESULTS
+      
+          // results = results.map((row: RowParsed) => {
+          //   return {
+          //     note: row.payload.note,
+          //     mood: row.payload.mood,
+          //     timestamp: row.timestamp
+          //   }
+          // })
 
           return res.status(200).json(results)
         });
