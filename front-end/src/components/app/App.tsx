@@ -62,7 +62,11 @@ class App extends React.Component<AppProps, AppState> {
                 path="/" 
                 component={(props: RouteComponentProps) => <Home id={this.state.id} api={api} {...props} />} 
               />
-              <Route exact={true} path="/view/:type" component={(props: RouteComponentProps) => <View {...props} />} />
+              <Route 
+                exact={true} 
+                path="/view/:type" 
+                component={(props: RouteComponentProps) => <View id={this.state.id} api={api} {...props} />} 
+              />
             </Switch>
           </Router>
         </AppContainer>
