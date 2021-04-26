@@ -88,34 +88,3 @@ observationsController.get('/observations', (req, res) => {
       connection.end();
   });
 });
-
-//ALL TYPES OF OBSERVATION
-
-// [
-//   "alert_qualified",
-//   "alert_raised",
-//   "catheter_observation",
-//   "check_in",
-//   "check_out",
-//   "concern_raised",
-//   "fluid_intake_observation",
-//   "food_intake_observation",
-//   "general_observation",
-//   "incontinence_pad_observation",
-//   "medication_schedule_created",
-//   "medication_schedule_updated",
-//   "mental_health_observation",
-//   "mood_observation",
-//   "no_medication_observation_received",
-//   "physical_health_observation",
-//   "regular_medication_maybe_taken",
-//   "regular_medication_not_taken",
-//   "regular_medication_partially_taken",
-//   "regular_medication_taken",
-//   "task_completed",
-//   "task_completion_reverted",
-//   "task_schedule_created",
-//   "toilet_visit_recorded",
-//   "visit_cancelled",
-//   "visit_completed"
-// ]
