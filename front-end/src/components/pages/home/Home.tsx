@@ -6,11 +6,12 @@ import SubTitle from '@App/components/SubTitle';
 
 interface Props {
     api: string;
-    careRecipientId: string;
+    id: string;
 }
 
 interface State {
     observationTypes?: Count | null;
+    errorLoading: boolean;
 }
 
 interface Count { 
@@ -21,7 +22,8 @@ class Home extends React.Component<Props, State> {
     public constructor(props: Props) {
         super(props);
         this.state = {
-            observationTypes: null
+            observationTypes: null,
+            errorLoading: false
         };
     }
 
@@ -32,7 +34,7 @@ class Home extends React.Component<Props, State> {
     public render = () => {
         return (
             <div className="home-page">
-                <SubTitle>Select a category</SubTitle>
+                <SubTitle>Click a category</SubTitle>
                 {this.renderData()}
             </div>
         );
@@ -40,14 +42,16 @@ class Home extends React.Component<Props, State> {
 
     private getObservationCounts = () => {
         axios
-        .get<Count>(this.props.api + '/observations?recipient=' + this.props.careRecipientId + '&count=true')
+        .get<Count>(this.props.api + '/observations?recipient=' + this.props.id + '&count=true')
         .then((response: AxiosResponse) => {
           this.setState({
             observationTypes: response.data
           });
         })
         .catch((err) => {
-          // IF ERROR
+          this.setState({
+              errorLoading: true
+          });
         });
     }
     
@@ -58,8 +62,10 @@ class Home extends React.Component<Props, State> {
             array.push(<ObservationLink observationType={key} count={value} />);
             }
             return array;
+        } else if (this.state.errorLoading) {
+            return 'Error loading data';
         } else {
-            return null;
+            return 'Loading...';
         }
     }
 }
