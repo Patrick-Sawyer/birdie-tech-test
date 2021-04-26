@@ -4,12 +4,6 @@ import dbConfig from "../db";
 
 export const observationsController = express.Router();
 
-// function uniq(a: any) {
-//   return a.sort().filter((item: string, pos: number , ary: string[]) => {
-//       return !pos || item != ary[pos - 1];
-//   });
-// }
-
 interface RowParsed {
   payload: {
     event_type: string
@@ -36,6 +30,7 @@ observationsController.get('/observations/recipient', (req, res) => {
   // count - if anything given, it returns a tally of all the observation event types instead
 
   const { recipient, page, type, count } = req.query;
+
   const connection = mysql.createConnection(dbConfig);
 
   connection.connect((err: any) => {
@@ -44,7 +39,7 @@ observationsController.get('/observations/recipient', (req, res) => {
       connection.query('SELECT payload, timestamp FROM events WHERE care_recipient_id="' + recipient + '" ORDER BY timestamp ASC', (err: any, rows: any) => {
           if (err) throw err;
 
-          //PARSE RESULTS
+          //PARSE RESULTS (as payload given as string)
 
           let results = rows.map((row: Row) => {
             return {
@@ -53,22 +48,18 @@ observationsController.get('/observations/recipient', (req, res) => {
             }
           })
 
-          //IF ANYTHING GIVEN FOR COUNT, RETURN TALLY OF EACH OBSERVATION TYPE
-
-          
+          //IF ANYTHING GIVEN FOR COUNT, RETURN TALLY OF EACH OBSERVATION TYPE INSTEAD
 
           if(count){
-
             let observationCount = <Count>{};
-
             results.forEach((row: RowParsed) => {
-                if(row.payload.event_type in observationCount){
-                  observationCount[row.payload.event_type]++;
+                let type = row.payload.event_type;
+                if(type in observationCount){
+                  observationCount[type]++;
                 }else{
-                  observationCount[row.payload.event_type] = 1;
+                  observationCount[type] = 1;
                 }
             })
-
             return res.status(200).json(observationCount)
           }
 
