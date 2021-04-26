@@ -6,18 +6,21 @@ import { Dispatch } from 'redux';
 import Title from '@App/components/Title';
 import Logo from '@App/components/Logo';
 import SubTitle from '@App/components/SubTitle';
+import axios, { AxiosResponse } from 'axios';
 
 const LogoUrl = require('../../assets/images/logo-birdie.svg');
-
-import fetch from 'node-fetch';
 
 interface AppProps {
 
 }
 
+interface Count { 
+  [key: string]: number; 
+}
+
 interface AppState {
   careRecipientId: string;
-  data?: Array<JSON>;
+  fetchedData?: Count | null;
 }
 
 const GlobalStyle = createGlobalStyle`
@@ -43,27 +46,13 @@ class App extends React.Component<AppProps, AppState> {
   public constructor(props: AppProps) {
     super(props);
     this.state = {
-      careRecipientId: 'df50cac5-293c-490d-a06c-ee26796f850d'
+      careRecipientId: 'df50cac5-293c-490d-a06c-ee26796f850d',
+      fetchedData: null
     };
   }
 
-
-  toJson = (response: Response):PromiseLike<object> => (
-    response.json()
-  );
-
-  getRecipientData = (recipient: string): Promise<object> => {
-    return fetch('http://localhost:8000/observations/recipient?recipient=' + recipient)
-      .then(this.toJson)
-      .then((data: Array<JSON>) => {
-        this.setState({
-          data: data
-        })
-      })
-  };
-
-  componentDidMount = () : void => {
-    this.getRecipientData(this.state.careRecipientId);
+  public componentDidMount = () => {
+    this.getObservationCounts();
   }
 
   public render() {
@@ -74,9 +63,28 @@ class App extends React.Component<AppProps, AppState> {
           <Logo src={LogoUrl} />
           <Title>Welcome to the birdie test</Title>
           <SubTitle>Best of luck!</SubTitle>
+          {this.renderData()}
         </AppContainer>
       </>
     );
+  }
+
+  private getObservationCounts = () => {
+    axios
+    .get<Count>('http://localhost:8000/observations?recipient=' + this.state.careRecipientId + '&count=true')
+    .then((response: AxiosResponse) => {
+      this.setState({
+        fetchedData: response.data
+      });
+    });
+  }
+
+  private renderData = () => {
+    if (this.state.fetchedData) {
+      return JSON.stringify(this.state.fetchedData);
+    } else {
+      return null;
+    }
   }
 }
 
