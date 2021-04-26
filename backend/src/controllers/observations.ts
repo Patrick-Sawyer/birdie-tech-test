@@ -10,18 +10,32 @@ export const observationsController = express.Router();
 //   });
 // }
 
-interface Row {
+interface RowParsed {
   payload: {
     event_type: string
   };
   timestamp: string;
 }
 
+interface Row {
+  payload: string;
+  timestamp: string;
+}
+
+interface Count { 
+  [key: string]: number; 
+}
+
 observationsController.get('/observations/recipient', (req, res) => {
 
-  //takes 3 parameters as query string, recipient id, type to filter by type (optional), and a page number (optional)
+  //QUERY STRINGS
 
-  const { recipient, page, type } = req.query;
+  // recipient - the recipient id
+  // type - the observation event type, to filter accordingly
+  // page - 20 elements per page
+  // count - if anything given, it returns a tally of all the observation event types instead
+
+  const { recipient, page, type, count } = req.query;
   const connection = mysql.createConnection(dbConfig);
 
   connection.connect((err: any) => {
@@ -30,24 +44,51 @@ observationsController.get('/observations/recipient', (req, res) => {
       connection.query('SELECT payload, timestamp FROM events WHERE care_recipient_id="' + recipient + '" ORDER BY timestamp ASC', (err: any, rows: any) => {
           if (err) throw err;
 
-          let results = rows.map((row: { payload: string; timestamp: string; }) => {
+          //PARSE RESULTS
+
+          let results = rows.map((row: Row) => {
             return {
               payload: JSON.parse(row.payload),
               timestamp: row.timestamp
             }
           })
+
+          //IF ANYTHING GIVEN FOR COUNT, RETURN TALLY OF EACH OBSERVATION TYPE
+
+          
+
+          if(count){
+
+            let observationCount = <Count>{};
+
+            results.forEach((row: RowParsed) => {
+                if(row.payload.event_type in observationCount){
+                  observationCount[row.payload.event_type]++;
+                }else{
+                  observationCount[row.payload.event_type] = 1;
+                }
+            })
+
+            return res.status(200).json(observationCount)
+          }
+
+          //IF ANYTHING GIVEN FOR TYPE IN QUERY STRING, FILTER ACCORDINGLY
           
           if(type){
-            results = results.filter((row: Row) => {
+            results = results.filter((row: RowParsed) => {
               return row.payload.event_type == type
             })
           }
+
+          //IF ANY PAGE GIVEN IN QUERY STRING, FILTER ACCORDINGLY
           
           if(page){
             let pageNumber = parseInt(<string>page);
             let firstRow = 20 * pageNumber; 
             results = results.slice(firstRow, firstRow + 20)
           }
+
+          //RETURN RESULTS
 
           return res.status(200).json(results)
         });
