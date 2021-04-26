@@ -20,7 +20,7 @@ interface Count {
   [key: string]: number; 
 }
 
-observationsController.get('/observations/recipient', (req, res) => {
+observationsController.get('/observations', (req, res) => {
 
   //QUERY STRINGS
 
