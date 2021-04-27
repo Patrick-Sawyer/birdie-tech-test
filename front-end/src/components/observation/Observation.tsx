@@ -33,10 +33,12 @@ const Observation: React.FC<Props> = (props): ReactElement => {
 
     const listElement = (type: string): JSX.Element | null => {
         if (props.data[type]) {
-            let extraText: string = type === 'fluidsObserved' ? 'Observed: ' : '';
+            let observed: string = type === 'fluidsObserved' ? 'Observed: ' : '';
+            let note: string = type === 'note' ? 'Note: ' : '';
+            let classes: string = type === 'taskDefinition' ? 'element task' : 'element';
             return (
-                <div className="element">
-                    {extraText + props.data[type]}
+                <div className={classes}>
+                    {observed + note + props.data[type]}
                 </div>
             );
         } else {
