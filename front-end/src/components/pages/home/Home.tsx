@@ -35,6 +35,7 @@ class Home extends React.Component<Props, State> {
         return (
             <div className="home-page">
                 <SubTitle>Click a category</SubTitle>
+                <div className="border" />
                 {this.renderData()}
             </div>
         );

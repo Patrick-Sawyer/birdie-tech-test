@@ -24,5 +24,6 @@ export const humanReadable = {
   task_schedule_created: 'Task schedules created',
   toilet_visit_recorded: 'Toilet visits',
   visit_cancelled: 'Cancelled visits',
-  visit_completed: 'Completed visits'
+  visit_completed: 'Completed visits',
+  recent: 'Last 2 weeks'
 };

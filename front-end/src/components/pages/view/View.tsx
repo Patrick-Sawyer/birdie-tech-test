@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { ReactElement } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import axios, { AxiosResponse } from 'axios';
 
 import SubTitle from '@App/components/SubTitle'; 
@@ -32,8 +32,8 @@ const View: React.FC<Props> = (props): ReactElement => {
     const { type } = useParams<ParamTypes>();
     const [ data, setData ] = React.useState<Data[]>([]);
     const [ loadFailed, setLoadFailed ] = React.useState<boolean>(false);
-
-    let page: number = 0;
+    const [ page, setPage ] = React.useState<number>(0);
+    const history = useHistory();
 
     React.useEffect(
         () => {
@@ -51,7 +51,7 @@ const View: React.FC<Props> = (props): ReactElement => {
 
     const displayData = (): JSX.Element[] => {
         let array: JSX.Element[] = [];
-        data.forEach((row: Data, index: number) => array.push(<Observation data={row} />));
+        data.forEach((row: Data, index: number) => array.push(<Observation index={index} data={row} />));
         return array;
     };
 
@@ -62,12 +62,62 @@ const View: React.FC<Props> = (props): ReactElement => {
             return displayData();
         }
     };
+
+    const pageButtons = (): JSX.Element => {
+        return (
+            <div className="buttons">
+                <div 
+                    className="button"
+                    onClick={() => {
+                        history.push('/');
+                    }}
+                >
+                    <div 
+                        className="pointer"
+                    >
+                        back
+                    </div>
+                </div>
+                <div 
+                    className="button"
+                    onClick={() => {
+                        let newPage = page <= 1 ? 0 : page - 1; 
+                        setPage(newPage);
+                    }}
+                >
+                    <div 
+                        className="pointer"  
+                        style={page === 0 ? {display: 'none'} :  {display: 'block'}}
+                    >
+                        prev 20
+                    </div>
+                </div>
+                <div 
+                    className="button" 
+                    onClick={() => {
+                        if (data.length === 20) {
+                            setPage(page + 1);
+                        }
+                    }}
+                >
+                    <div 
+                        className="pointer" 
+                        style={data.length === 20 ?  {display: 'block'}  : {display: 'none'}}
+                    >
+                        next 20
+                    </div>
+                </div>
+            </div>
+        );
+    };
     
     return (
         <div className="view-page">
             <SubTitle>{humanReadable[type]}</SubTitle>
+            <div className="border" />
             <div className="elements">
                 <div className="elements-inner">
+                    {pageButtons()}
                     {renderData()}
                 </div>
             </div>

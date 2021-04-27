@@ -10,13 +10,16 @@ interface Props {
 }
 
 const ObservationLink: React.FC<Props> = (props): ReactElement => {
+
+    let amount: string = props.count > 0 ? ' (' + props.count + ')' : '';
+    
     return (
         <div 
             key={props.observationType} 
             className="observation-type"
         >
             <Link to={'/view/' + props.observationType} >
-                {humanReadable[props.observationType] + ' (' + props.count + ')'}
+                {humanReadable[props.observationType] + amount}
             </Link>
         </div>
     );

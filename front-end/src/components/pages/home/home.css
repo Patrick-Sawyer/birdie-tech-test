@@ -3,3 +3,11 @@
   font-family: sans-serif;
   font-size: 18px;
 }
+
+.border {
+  border-bottom: 1px solid #dedede;
+  width: 150px;
+  margin: auto;
+  margin-bottom: 20px;
+  height: 10px;
+}

@@ -4,14 +4,15 @@ import './observation.css';
 
 interface Props {
     data: {
-        note: string;
-        mood: string;
+        note?: string;
+        mood?: string;
         timestamp: string;
-        taskNote: string;
-        taskDefinition: string;
-        fluidsObserved: string;
-        fluidType: string;
+        taskNote?: string;
+        taskDefinition?: string;
+        fluidsObserved?: string;
+        fluidType?: string;
     };
+    index: number;
 }
 
 const Observation: React.FC<Props> = (props): ReactElement => {
@@ -44,8 +45,8 @@ const Observation: React.FC<Props> = (props): ReactElement => {
     };
 
     return (
-        <div className="observation-container">
-            <div className="element date">
+        <div key={props.index} className="observation-container">
+            <div className="date">
                 {date()}
             </div>
             {listElement('fluidType')}
