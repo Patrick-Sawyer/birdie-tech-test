@@ -44,7 +44,7 @@ observationsController.get('/observations', (req, res) => {
 
       //GET ALL DATA FOR RECIPIENT, ORDER BY DATE
 
-      connection.query('SELECT payload, timestamp FROM events WHERE care_recipient_id="' + recipient + '" ORDER BY timestamp ASC', (err: any, rows: any) => {
+      connection.query('SELECT payload, timestamp FROM events WHERE care_recipient_id="' + recipient + '" ORDER BY timestamp DESC', (err: any, rows: any) => {
           if (err) throw err;
 
           //PARSE RESULTS (as payload given as string)
