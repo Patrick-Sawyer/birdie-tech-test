@@ -9,7 +9,7 @@ interface Props {
         timestamp: string;
         taskNote?: string;
         taskDefinition?: string;
-        fluidsObserved?: string;
+        fluidsObserved?: string | boolean;
         fluidType?: string;
     };
 }
@@ -33,9 +33,10 @@ const Observation: React.FC<Props> = (props): ReactElement => {
 
     const listElement = (type: string): JSX.Element | null => {
         if (props.data[type]) {
+            let extraText: string = type === 'fluidsObserved' ? 'Observed: ' : '';
             return (
                 <div className="element">
-                    {props.data[type]}
+                    {extraText + props.data[type]}
                 </div>
             );
         } else {
