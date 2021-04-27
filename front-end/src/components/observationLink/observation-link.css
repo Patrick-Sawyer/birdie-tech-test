@@ -7,7 +7,7 @@
 }
 
 .observation-type :hover {
-  color: #2aa8a3;
+  color: #54c6c1;
 }
 
 .observation-type :active {
@@ -17,4 +17,8 @@
 a {
   color: inherit;
   text-decoration: inherit;
+}
+
+.bold {
+  font-weight: bold;
 }

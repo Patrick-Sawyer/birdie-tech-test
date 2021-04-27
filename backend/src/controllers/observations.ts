@@ -32,7 +32,7 @@ observationsController.get('/observations', (req, res) => {
 
   // recipient - the recipient id
   // type - the observation event type, to filter accordingly
-  // page - 20 elements per page, first page is page 0, returns first 20 (ordered by date)
+  // page - 20 elements per page, first page is page 0, returns first 20 (ordered by date, most recent first)
   // count - if anything given, it returns a tally of all the observation event types instead
 
   const { recipient, page, type, count } = req.query;

@@ -24,10 +24,10 @@ const Observation: React.FC<Props> = (props): ReactElement => {
     };
 
     const date = (): string => {
-        let dateObject = new Date(props.data.timestamp);
+        let dateObject: Date = new Date(props.data.timestamp);
         let hours: string = format(dateObject.getHours());
         let minutes: string = format(dateObject.getMinutes());
-        let dateString = dateObject.toDateString();
+        let dateString: string = dateObject.toDateString();
         return hours + ':' + minutes + ' on ' + dateString;
     };
 
