@@ -35,10 +35,10 @@ const Observation: React.FC<Props> = (props): ReactElement => {
         if (props.data[type]) {
             let observed: string = type === 'fluidsObserved' ? 'Observed: ' : '';
             let note: string = type === 'note' ? 'Note: ' : '';
-            let classes: string = type === 'taskDefinition' ? 'element task' : 'element';
+            let classes: string = type === 'taskDefinition' ? 'element bold' : 'element';
             return (
                 <div className={classes}>
-                    {observed + note + props.data[type]}
+                    {observed}<span className="bold">{note}</span>{props.data[type]}
                 </div>
             );
         } else {
