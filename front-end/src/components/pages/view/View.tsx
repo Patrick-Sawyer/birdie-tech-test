@@ -1,9 +1,12 @@
 import * as React from 'react';
 import { ReactElement } from 'react';
-import { humanReadable } from '../../humanReadable.js';
 import { useParams } from 'react-router-dom';
-import SubTitle from '@App/components/SubTitle'; 
 import axios, { AxiosResponse } from 'axios';
+
+import SubTitle from '@App/components/SubTitle'; 
+import Observation from '../../observation/Observation';
+import { humanReadable } from '../../humanReadable.js';
+import './view.css';
 
 interface Props {
     id: string;
@@ -15,14 +18,19 @@ interface ParamTypes {
 }
 
 interface Data {
-    payload: JSON;
+    note: string;
+    mood: string;
     timestamp: string;
+    taskNote: string;
+    taskDefinition: string;
+    fluidsObserved: string;
+    fluidType: string;
 }
 
 const View: React.FC<Props> = (props): ReactElement => {
 
     const { type } = useParams<ParamTypes>();
-    const [ data, setData ] = React.useState<Data>();
+    const [ data, setData ] = React.useState<Data[]>([]);
     const [ loadFailed, setLoadFailed ] = React.useState<boolean>(false);
 
     let page: number = 0;
@@ -41,18 +49,28 @@ const View: React.FC<Props> = (props): ReactElement => {
         [page]
     );
 
-    const renderData = () => {
+    const displayData = (): JSX.Element[] => {
+        let array: JSX.Element[] = [];
+        data.forEach((row: Data, index: number) => array.push(<Observation data={row} />));
+        return array;
+    };
+
+    const renderData = (): JSX.Element[] | string => {
         if (loadFailed) {
-            return 'Failed to load data';
+            return 'Nothing to display';
         } else {
-            return JSON.stringify(data);
+            return displayData();
         }
     };
     
     return (
         <div className="view-page">
             <SubTitle>{humanReadable[type]}</SubTitle>
-            {renderData()}
+            <div className="elements">
+                <div className="elements-inner">
+                    {renderData()}
+                </div>
+            </div>
         </div>
     );
 };

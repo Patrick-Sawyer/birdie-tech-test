@@ -48,7 +48,7 @@ class App extends React.Component<AppProps, AppState> {
     };
   }
 
-  public render() {
+  public render(): JSX.Element {
     return (
       <>
         <GlobalStyle />

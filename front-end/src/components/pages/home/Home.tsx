@@ -27,7 +27,7 @@ class Home extends React.Component<Props, State> {
         };
     }
 
-    public componentDidMount = () => {
+    public componentDidMount = (): void => {
         this.getObservationCounts();
     }
 
@@ -40,7 +40,7 @@ class Home extends React.Component<Props, State> {
         );
     }
 
-    private getObservationCounts = () => {
+    private getObservationCounts = (): void => {
         axios
         .get<Count>(this.props.api + '/observations?recipient=' + this.props.id + '&count=true')
         .then((response: AxiosResponse) => {
@@ -55,7 +55,7 @@ class Home extends React.Component<Props, State> {
         });
     }
     
-    private renderData = () => {
+    private renderData = (): JSX.Element[] | string | null => {
         if (this.state.observationTypes) {
             let array = [];
             for (let [key, value] of Object.entries(this.state.observationTypes)) {
@@ -65,7 +65,7 @@ class Home extends React.Component<Props, State> {
         } else if (this.state.errorLoading) {
             return 'Error loading data';
         } else {
-            return 'Loading...';
+            return null;
         }
     }
 }

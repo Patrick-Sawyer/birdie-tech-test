@@ -1,0 +1,18 @@
+.observation-container {
+  text-align: left;
+  background-color: #ededed;
+  color: #444444;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+.element {
+  width: 100%;
+}
+
+.date {
+  color: #2aa8a3;
+  font-weight: bold;
+  padding-bottom: 5px;
+}
