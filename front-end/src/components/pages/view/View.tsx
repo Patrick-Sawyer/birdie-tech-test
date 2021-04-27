@@ -37,14 +37,21 @@ const View: React.FC<Props> = (props): ReactElement => {
 
     React.useEffect(
         () => {
+            const source = axios.CancelToken.source();
             axios
-            .get<Data>(props.api + '/observations?recipient=' + props.id + '&type=' + type + '&page=' + page)
+            .get<Data>(
+                props.api + '/observations?recipient=' + props.id + '&type=' + type + '&page=' + page,
+                { cancelToken: source.token }
+            )
             .then((response: AxiosResponse) => {
                 setData(response.data);
             })
             .catch((err) => {
                 setLoadFailed(true);
             });
+            return () => {
+                source.cancel('Component got unmounted');
+            };
         }, 
         [page]
     );
