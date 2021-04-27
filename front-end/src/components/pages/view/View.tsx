@@ -51,7 +51,7 @@ const View: React.FC<Props> = (props): ReactElement => {
 
     const displayData = (): JSX.Element[] => {
         let array: JSX.Element[] = [];
-        data.forEach((row: Data, index: number) => array.push(<Observation index={index} data={row} />));
+        data.forEach((row: Data, index: number) => array.push(<Observation key={index} data={row} />));
         return array;
     };
 
@@ -65,7 +65,7 @@ const View: React.FC<Props> = (props): ReactElement => {
 
     const pageButtons = (): JSX.Element => {
         return (
-            <div className="buttons">
+            <div className="buttons" key="buttons">
                 <div 
                     className="button"
                     onClick={() => {

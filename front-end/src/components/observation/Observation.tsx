@@ -12,7 +12,6 @@ interface Props {
         fluidsObserved?: string;
         fluidType?: string;
     };
-    index: number;
 }
 
 const Observation: React.FC<Props> = (props): ReactElement => {
@@ -45,7 +44,7 @@ const Observation: React.FC<Props> = (props): ReactElement => {
     };
 
     return (
-        <div key={props.index} className="observation-container">
+        <div className="observation-container">
             <div className="date">
                 {date()}
             </div>

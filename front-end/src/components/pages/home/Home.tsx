@@ -60,7 +60,7 @@ class Home extends React.Component<Props, State> {
         if (this.state.observationTypes) {
             let array = [];
             for (let [key, value] of Object.entries(this.state.observationTypes)) {
-            array.push(<ObservationLink observationType={key} count={value} />);
+            array.push(<ObservationLink key={key} observationType={key} count={value} />);
             }
             return array;
         } else if (this.state.errorLoading) {
