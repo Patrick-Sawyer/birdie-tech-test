@@ -9,6 +9,10 @@ interface RowParsed {
     event_type: string;
     note: string;
     mood: string;
+    task_schedule_note: string;
+    task_definition_description: string;
+    observed: string;
+    fluid: string;
   };
   timestamp: string;
 }
@@ -83,15 +87,21 @@ observationsController.get('/observations', (req, res) => {
             results = results.slice(firstRow, firstRow + 20)
           }
 
-          //RETURN RESULTS
+          //PARSE REMAINING RESULTS FURTHER
       
-          // results = results.map((row: RowParsed) => {
-          //   return {
-          //     note: row.payload.note,
-          //     mood: row.payload.mood,
-          //     timestamp: row.timestamp
-          //   }
-          // })
+          results = results.map((row: RowParsed) => {
+            return {
+              note: row.payload.note,
+              mood: row.payload.mood,
+              timestamp: row.timestamp,
+              taskNote: row.payload.task_schedule_note,
+              taskDefinition: row.payload.task_definition_description,
+              fluidsObserved: row.payload.observed,
+              fluidType: row.payload.fluid
+            }
+          })
+
+          //RETURN RESULTS
 
           return res.status(200).json(results)
         });
