@@ -31,7 +31,7 @@ class Home extends React.Component<Props, State> {
         this.getObservationCounts();
     }
 
-    public render = () => {
+    public render = (): JSX.Element => {
         return (
             <div className="home-page">
                 <SubTitle>Click a category</SubTitle>
