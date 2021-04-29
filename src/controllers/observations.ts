@@ -15,6 +15,7 @@ interface RowParsed {
     task_definition_description: string;
     observed: string;
     fluid: string;
+    care_recipient_id: string;
   };
   timestamp: string;
 }
@@ -36,6 +37,14 @@ interface Row {
 
 interface Count { 
   [key: string]: number; 
+}
+
+interface Query {
+  recipient: string;
+  page: string;
+  type: string; 
+  count: boolean;
+  patients: boolean;
 }
 
 // ABSTRACTED FUNCTIONS FOR SORTING DATA
@@ -88,13 +97,6 @@ const structureDataForResponse = (results: RowParsed[]): RowModified[] => {
   })
 }
 
-interface Query {
-  recipient: string;
-  page: string;
-  type: string; 
-  count: string;
-}
-
 // ENDPOINT
 
 observationsController.get('/observations', (req: express.Request<{},{},{}, Query>, res: express.Response): void => {
@@ -106,7 +108,9 @@ observationsController.get('/observations', (req: express.Request<{},{},{}, Quer
   connection.connect((err: any) => {
       if (err) throw err;
 
-      connection.query('SELECT payload, timestamp FROM events WHERE care_recipient_id="' + recipient + '" ORDER BY timestamp DESC', (err: any, rows: Row[]) => {
+      let recipientQuery: string = recipient ? ' WHERE care_recipient_id="' + recipient + '"' : '';
+
+      connection.query('SELECT payload, timestamp FROM events' + recipientQuery + ' ORDER BY timestamp DESC', (err: any, rows: Row[]) => {
           if (err) throw err;
 
           let results: RowParsed[] = payloadStringToJsObject(rows);
