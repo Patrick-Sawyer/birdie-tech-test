@@ -19,7 +19,7 @@ interface AppProps {
 }
 
 interface AppState {
-  id: string;
+  recipientId: string;
 }
 
 const GlobalStyle = createGlobalStyle`
@@ -44,8 +44,15 @@ class App extends React.Component<AppProps, AppState> {
   public constructor(props: AppProps) {
     super(props);
     this.state = {
-      id: 'df50cac5-293c-490d-a06c-ee26796f850d'
+      recipientId: ''
     };
+    this.updateRecipientId = this.updateRecipientId.bind(this);
+  }
+
+  public updateRecipientId = (id: string): void => {
+    this.setState({
+      recipientId: id
+    });
   }
 
   public render(): JSX.Element {
@@ -59,13 +66,21 @@ class App extends React.Component<AppProps, AppState> {
             <Switch>
               <Route 
                 exact={true} 
-                path="/" 
-                component={(props: RouteComponentProps) => <Home id={this.state.id} api={api} {...props} />} 
+                path="/"
+                component={(props: RouteComponentProps) => <Home 
+                  api={api}
+                  updateRecipientId={this.updateRecipientId}
+                  recipientId={this.state.recipientId}
+                  {...props} 
+                />} 
               />
               <Route 
                 exact={true} 
-                path="/view/:type" 
-                component={(props: RouteComponentProps) => <View id={this.state.id} api={api} {...props} />} 
+                path="/view/:id/:type" 
+                component={(props: RouteComponentProps) => <View
+                  api={api} 
+                  {...props} 
+                />} 
               />
             </Switch>
           </Router>

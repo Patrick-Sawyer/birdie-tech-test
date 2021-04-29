@@ -12,3 +12,19 @@
   margin-bottom: 20px;
   height: 10px;
 }
+
+.dropdown {
+  margin-bottom: 15px;
+  width: 500px;
+}
+
+.dropdown-inner {
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
+@media screen and (max-width: 500px) {
+  .dropdown {
+    width: 100vw;
+  }
+}

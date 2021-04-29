@@ -9,12 +9,12 @@ import { humanReadable } from '../../humanReadable.js';
 import './view.css';
 
 interface Props {
-    id: string;
     api: string;
 }
 
 interface ParamTypes {
     type: string;
+    id: string;
 }
 
 interface Data {
@@ -29,7 +29,7 @@ interface Data {
 
 const View: React.FC<Props> = (props): ReactElement => {
 
-    const { type } = useParams<ParamTypes>();
+    const { type, id } = useParams<ParamTypes>();
     const [ data, setData ] = React.useState<Data[]>([]);
     const [ loadFailed, setLoadFailed ] = React.useState<boolean>(false);
     const [ page, setPage ] = React.useState<number>(0);
@@ -40,7 +40,7 @@ const View: React.FC<Props> = (props): ReactElement => {
             const source = axios.CancelToken.source();
             axios
             .get<Data>(
-                props.api + '/observations?recipient=' + props.id + '&type=' + type + '&page=' + page,
+                props.api + '/observations?recipient=' + id + '&type=' + type + '&page=' + page,
                 { cancelToken: source.token }
             )
             .then((response: AxiosResponse) => {
