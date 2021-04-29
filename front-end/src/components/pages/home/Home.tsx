@@ -12,6 +12,8 @@ interface Props {
 interface State {
     observationTypes?: Count | null;
     errorLoading: boolean;
+    patients: string[];
+    currentPatient: string;
 }
 
 interface Count { 
@@ -23,12 +25,15 @@ class Home extends React.Component<Props, State> {
         super(props);
         this.state = {
             observationTypes: null,
-            errorLoading: false
+            errorLoading: false,
+            patients: [],
+            currentPatient: ''
         };
     }
 
     public componentDidMount = (): void => {
         this.getObservationCounts();
+        this.getPatients();
     }
 
     public render = (): JSX.Element => {
@@ -39,6 +44,21 @@ class Home extends React.Component<Props, State> {
                 {this.renderData()}
             </div>
         );
+    }
+
+    private getPatients = (): void => {
+        axios
+        .get<Count>(this.props.api + '/observations?patients=true')
+        .then((response: AxiosResponse) => {
+          this.setState({
+            patients: response.data
+          });
+        })
+        .catch((err) => {
+          this.setState({
+              errorLoading: true
+          });
+        });
     }
 
     private getObservationCounts = (): void => {
