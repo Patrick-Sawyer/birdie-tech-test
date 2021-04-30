@@ -76,7 +76,7 @@ const View: React.FC<Props> = (props): ReactElement => {
                 <div 
                     className="button"
                     onClick={() => {
-                        history.push('/');
+                        history.push('/recipient/' + id);
                     }}
                 >
                     <div 

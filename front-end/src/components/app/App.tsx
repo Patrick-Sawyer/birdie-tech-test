@@ -8,8 +8,9 @@ import { BrowserRouter as Router, Route, Switch, RouteComponentProps } from 'rea
 import Title from '@App/components/Title';
 import Logo from '@App/components/Logo';
 
-import Home from '@App/components/pages/home/Home';
 import View from '@App/components/pages/view/View';
+import Recipient from '@App/components/pages/recipient/Recipient';
+import Select from '@App/components/pages/select/Select';
 
 const LogoUrl = require('../../assets/images/logo-birdie.svg');
 const api = 'http://localhost:8000';
@@ -19,7 +20,7 @@ interface AppProps {
 }
 
 interface AppState {
-  recipientId: string;
+
 }
 
 const GlobalStyle = createGlobalStyle`
@@ -43,16 +44,6 @@ const AppContainer = styled.div`
 class App extends React.Component<AppProps, AppState> {
   public constructor(props: AppProps) {
     super(props);
-    this.state = {
-      recipientId: ''
-    };
-    this.updateRecipientId = this.updateRecipientId.bind(this);
-  }
-
-  public updateRecipientId = (id: string): void => {
-    this.setState({
-      recipientId: id
-    });
   }
 
   public render(): JSX.Element {
@@ -67,10 +58,16 @@ class App extends React.Component<AppProps, AppState> {
               <Route 
                 exact={true} 
                 path="/"
-                component={(props: RouteComponentProps) => <Home 
+                component={(props: RouteComponentProps) => <Select 
                   api={api}
-                  updateRecipientId={this.updateRecipientId}
-                  recipientId={this.state.recipientId}
+                  {...props} 
+                />} 
+              />
+              <Route 
+                exact={true} 
+                path="/recipient/:id"
+                component={(props: RouteComponentProps) => <Recipient 
+                  api={api}
                   {...props} 
                 />} 
               />
@@ -78,7 +75,7 @@ class App extends React.Component<AppProps, AppState> {
                 exact={true} 
                 path="/view/:id/:type" 
                 component={(props: RouteComponentProps) => <View
-                  api={api} 
+                  api={api}
                   {...props} 
                 />} 
               />
