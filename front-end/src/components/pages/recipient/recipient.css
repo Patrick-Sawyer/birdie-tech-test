@@ -15,9 +15,9 @@
 
 .button {
   flex: 1;
-  margin-bottom: 20px;
   color: #808080;
   transition: 0.2s;
+  cursor: pointer;
 }
 
 .button:hover {
@@ -26,8 +26,4 @@
 
 .button :active {
   color: #a8f0ec;
-}
-
-.pointer {
-  cursor: pointer;
 }

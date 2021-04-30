@@ -61,50 +61,41 @@ const View: React.FC<Props> = (props): ReactElement => {
         return array;
     };
 
+    const button = (text: string, click: () => void, display: boolean): JSX.Element => {
+        return (
+            <div className="button">
+                <div 
+                    className="pointer"  
+                    style={{display: display ? 'block' : 'none'}}
+                    onClick={click}
+                >
+                    {text}
+                </div>
+            </div>
+        );
+    };
+
+    const prevPage = (): void => {
+        let newPage: number = page <= 1 ? 0 : page - 1; 
+        setPage(newPage);
+    };
+
+    const nextPage = (): void => {
+        if (data.length === 20) {
+            setPage(page + 1);
+        }
+    };
+
+    const back = (): void => {
+        history.push('/recipient/' + id);
+    };
+
     const pageButtons = (): JSX.Element => {
         return (
             <div className="buttons" key="buttons">
-                <div 
-                    className="button"
-                    onClick={() => {
-                        history.push('/recipient/' + id);
-                    }}
-                >
-                    <div 
-                        className="pointer"
-                    >
-                        back
-                    </div>
-                </div>
-                <div 
-                    className="button"
-                    onClick={() => {
-                        let newPage = page <= 1 ? 0 : page - 1; 
-                        setPage(newPage);
-                    }}
-                >
-                    <div 
-                        className="pointer"  
-                        style={page === 0 ? {display: 'none'} :  {display: 'block'}}
-                    >
-                        prev 20
-                    </div>
-                </div>
-                <div 
-                    className="button" 
-                    onClick={() => {
-                        if (data.length === 20) {
-                            setPage(page + 1);
-                        }
-                    }}
-                >
-                    <div 
-                        className="pointer" 
-                        style={data.length === 20 ?  {display: 'block'}  : {display: 'none'}}
-                    >
-                        next 20
-                    </div>
-                </div>
+                {button('prev 20', prevPage, page !== 0)}
+                {button('back', back, true)}
+                {button('next 20', nextPage, data.length === 20)}
             </div>
         );
     };

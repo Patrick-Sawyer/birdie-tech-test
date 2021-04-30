@@ -71,11 +71,7 @@ const Select: React.FC<Props> = (props: Props): ReactElement => {
                     history.push('/');
                 }}
             >
-                <div 
-                    className="pointer"
-                >
-                    back
-                </div>
+                back
             </div>
         );
     };
