@@ -1,8 +1,5 @@
 import * as React from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
-import { RootState } from '@App/store/reducers';
-import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
 import { BrowserRouter as Router, Route, Switch, RouteComponentProps } from 'react-router-dom';
 
 import Title from '@App/components/Title';
@@ -87,8 +84,4 @@ class App extends React.Component<AppProps, AppState> {
   }
 }
 
-const mapStateToProps = (state: RootState, ownProps: object) => {};
-
-const mapDispatchToProps = (dispatch: Dispatch<RootState>) => {};
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default App;

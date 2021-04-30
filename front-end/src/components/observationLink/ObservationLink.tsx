@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { ReactElement } from 'react';
-import { humanReadable } from '../humanReadable.js';
+
+const humanReadable = require('../../humanReadable.json');
 import './observation-link.css';
 import { Link } from 'react-router-dom';
 

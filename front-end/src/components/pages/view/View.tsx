@@ -5,7 +5,7 @@ import axios, { AxiosResponse } from 'axios';
 
 import SubTitle from '@App/components/SubTitle'; 
 import Observation from '../../observation/Observation';
-import { humanReadable } from '../../humanReadable.js';
+const humanReadable = require('../../../humanReadable.json');
 import './view.css';
 
 interface Props {
