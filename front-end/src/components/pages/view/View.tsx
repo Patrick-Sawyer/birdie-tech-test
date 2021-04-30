@@ -31,7 +31,6 @@ const View: React.FC<Props> = (props): ReactElement => {
 
     const { type, id } = useParams<ParamTypes>();
     const [ data, setData ] = React.useState<Data[]>([]);
-    const [ loadFailed, setLoadFailed ] = React.useState<boolean>(false);
     const [ page, setPage ] = React.useState<number>(0);
     const history = useHistory();
 
@@ -39,7 +38,7 @@ const View: React.FC<Props> = (props): ReactElement => {
         () => {
             const source = axios.CancelToken.source();
             axios
-            .get<Data>(
+            .get<Data[]>(
                 props.api + '/observations?recipient=' + id + '&type=' + type + '&page=' + page,
                 { cancelToken: source.token }
             )
@@ -47,7 +46,7 @@ const View: React.FC<Props> = (props): ReactElement => {
                 setData(response.data);
             })
             .catch((err) => {
-                setLoadFailed(true);
+                setData([]);
             });
             return () => {
                 source.cancel('Component got unmounted');
@@ -56,18 +55,10 @@ const View: React.FC<Props> = (props): ReactElement => {
         [page]
     );
 
-    const displayData = (): JSX.Element[] => {
+    const displayData = (observations: Data[]): JSX.Element[] => {
         let array: JSX.Element[] = [];
-        data.forEach((row: Data, index: number) => array.push(<Observation key={index} data={row} />));
+        observations.forEach((row: Data, index: number) => array.push(<Observation key={index} data={row} />));
         return array;
-    };
-
-    const renderData = (): JSX.Element[] | string => {
-        if (loadFailed) {
-            return 'Nothing to display';
-        } else {
-            return displayData();
-        }
     };
 
     const pageButtons = (): JSX.Element => {
@@ -125,7 +116,7 @@ const View: React.FC<Props> = (props): ReactElement => {
             <div className="elements">
                 <div className="elements-inner">
                     {pageButtons()}
-                    {renderData()}
+                    {displayData(data)}
                 </div>
             </div>
         </div>

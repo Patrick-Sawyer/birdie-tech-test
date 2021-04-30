@@ -46,9 +46,9 @@ const Select: React.FC<Props> = (props: Props): ReactElement => {
         []
     );
 
-    const renderData = (): JSX.Element[] => {
-        let array = [];
-        for (let [key, value] of Object.entries(types)) {
+    const renderData = (data: Count): JSX.Element[] => {
+        let array: JSX.Element[] = [];
+        for (let [key, value] of Object.entries(data)) {
         array.push(
                 (
                     <ObservationLink 
@@ -85,7 +85,7 @@ const Select: React.FC<Props> = (props: Props): ReactElement => {
             <SubTitle>Choose category</SubTitle>
             <div className="border" />
             {backButton()}
-            {renderData()}
+            {renderData(types)}
         </div>
     );
 };
